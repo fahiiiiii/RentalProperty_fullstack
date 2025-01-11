@@ -4,7 +4,7 @@ package main
 import (
 	_ "rental_api/routers"
 	"rental_api/models"
-
+	 "rental_api/conf"
 
 	"github.com/beego/beego/v2/server/web"
 )

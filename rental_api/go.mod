@@ -1,5 +1,5 @@
-module rental_api
 
+module rental_api
 go 1.23.4
 
 require (

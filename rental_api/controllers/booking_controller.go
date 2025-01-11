@@ -1,13 +1,12 @@
 // controllers/booking_controller.go
 package controllers
-import "github.com/fahiiiiii/rental_api/conf"  // Adjust according to your module name
+// /import "github.com/fahiiiiii/RentalProperty_fullstack/rental_api/conf"
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
 	"sync"
-
 	"rental_api/conf"
 	"rental_api/models"
 

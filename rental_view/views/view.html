@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAE Vacation Rentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #003580;
+            padding: 1rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem;
+            background-color: #f2f2f2;
+        }
+
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            flex: 1;
+        }
+
+        .search-button {
+            background-color: #00b488;
+            color: white;
+            border: none;
+            padding: 0.5rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #008c6a;
+        }
+
+        .filters-container {
+            padding: 1rem;
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .filter-button.active {
+            background-color: #003580;
+            color: white;
+            border-color: #003580;
+        }
+
+        .main-title {
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 0 1.5rem;
+        }
+
+        .listing-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: white;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .listing-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+
+        .image-gallery {
+            position: relative;
+            height: 250px;
+            /* Fixed height for consistent layout */
+            overflow: hidden;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+
+        .listing-card:hover .listing-image {
+            transform: scale(1.1);
+            /* Zoom effect */
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 10;
+            /* Ensure dots are above the image */
+        }
+
+        .gallery-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .gallery-dot.active {
+            background: white;
+        }
+
+        .listing-details {
+            padding: 1rem;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-score {
+            background-color: #003580;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .amenities {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .location {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-button {
+            background-color: #00b488;
+            color: white;
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .view-button:hover {
+            background-color: #008c6a;
+        }
+
+        .heart-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .heart-button:hover {
+            transform: scale(1.1);
+        }
+
+        .heart-button.active {
+            color: red;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+            }
+
+            .listings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-container {
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="search-container">
+            <input type="text" placeholder="Dubai, Dubai, United Arab Emirates" class="search-input" id="location">
+            <input type="text" placeholder="Select dates" class="search-input" id="dates">
+            <input type="text" placeholder="Guests" class="search-input" id="guests">
+            <button class="search-button" onclick="searchListings()">Search</button>
+        </div>
+    </header>
+
+    <div class="filters-container">
+        <button class="filter-button active">All</button>
+        <button class="filter-button">Apartments</button>
+        <button class="filter-button">Villas</button>
+        <button class="filter-button">Hotels</button>
+        <button class="filter-button">Price: Low to High</button>
+        <button class="filter-button">Rating: High to Low</button>
+    </div>
+
+    <h1 class="main-title">United Arab Emirates Vacation Rentals & Rent By Owner Homes</h1>
+
+    <div class="listings-grid" id="listingsContainer">
+        <!-- Listings will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // Sample database of listings
+        const listings = [
+            {
+                id: 1,
+                title: "Luxury Villa in Palm Jumeirah",
+                price: 565782,
+                rating: 9.5,
+                reviews: 15,
+                amenities: ["Air Conditioner", "Swimming Pool", "Cold Storage"],
+                location: "Dubai • Palm Jumeirah",
+                images: ["villa1.jpg", "villa2.jpg", "villa3.jpg"]
+            },
+            {
+                id: 2,
+                title: "Modern Apartment in Capital Bay",
+                price: 223000,
+                rating: 8.8,
+                reviews: 24,
+                amenities: ["Air Conditioner", "City View", "Hot Tub"],
+                location: "Dubai • Business Bay",
+                images: ["apt1.jpg", "apt2.jpg", "apt3.jpg"]
+            },
+            // Add more listings here
+        ];
+
+        function createListingCard(listing) {
+            return `
+                <div class="listing-card">
+                    <div class="image-gallery">
+                        <img src="placeholder-image.jpg" alt="${listing.title}" class="listing-image">
+                        <div class="gallery-nav">
+                            ${listing.images.map((_, i) => `
+                                <div class="gallery-dot ${i === 0 ? 'active' : ''}"></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <button class="heart-button" onclick="toggleFavorite(${listing.id})">♡</button>
+                    <div class="listing-details">
+                        <div class="price">From $${listing.price.toLocaleString()}</div>
+                        <div class="rating">
+                            <span class="rating-score">${listing.rating}</span>
+                            <span>(${listing.reviews} Reviews)</span>
+                        </div>
+                        <div class="amenities">
+                            ${listing.amenities.map(amenity => `
+                                <span>${amenity}</span>
+                                ${amenity !== listing.amenities[listing.amenities.length - 1] ? '<span>•</span>' : ''}
+                            `).join('')}
+                        </div>
+                        <div class="location">${listing.location}</div>
+                        <button class="view-button" onclick="viewListing(${listing.id})">View Availability</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderListings(filteredListings = listings) {
+            const container = document.getElementById('listingsContainer');
+            container.innerHTML = filteredListings.map(listing => createListingCard(listing)).join('');
+        }
+
+        function searchListings() {
+            const location = document.getElementById('location').value.toLowerCase();
+            const filteredListings = listings.filter(listing =>
+                listing.location.toLowerCase().includes(location)
+            );
+            renderListings(filteredListings);
+        }
+
+        function toggleFavorite(id) {
+            const button = event.target;
+            button.classList.toggle('active');
+            button.textContent = button.classList.contains('active') ? '♥' : '♡';
+        }
+
+        function viewListing(id) {
+            // Implement view listing functionality
+            console.log(`Viewing listing ${id}`);
+        }
+
+        // Initial render
+        renderListings();
+
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-button').forEach(btn =>
+                    btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Implement filtering logic based on button text
+                let filteredListings = [...listings];
+                switch (e.target.textContent) {
+                    case 'Price: Low to High':
+                        filteredListings.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'Rating: High to Low':
+                        filteredListings.sort((a, b) => b.rating - a.rating);
+                        break;
+                    // Add more filter cases as needed
+                }
+                renderListings(filteredListings);
+            });
+        });
+    </script>
+</body>
+
+</html>

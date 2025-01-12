@@ -13,15 +13,6 @@ type Location struct {
     // Property string `gorm:"not null"`
 }
 
-// type RentalProperty struct {
-//     ID         int      `db:"id" json:"id"`
-//     Name       string   `db:"name" json:"name"`
-//     Type       string   `db:"type" json:"type"`
-//     Bedrooms   int      `db:"bedrooms" json:"bedrooms"`
-//     Bathrooms  int      `db:"bathrooms" json:"bathrooms"`
-//     Amenities  []string `db:"amenities" json:"amenities"`
-//     LocationID int      `db:"location_id" json:"location_id"`
-// }
 type RentalProperty struct {
     ID           int            `db:"id" json:"id"`
     PropertyName string         `db:"property_name" json:"property_name"`

@@ -1,22 +1,25 @@
 // controllers/booking_controller.go
+
 package controllers
-// /import "github.com/fahiiiiii/RentalProperty_fullstack/rental_api/conf"
+
 import (
+	"rental_api/models"
 	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
 	"sync"
 	"rental_api/conf"
-	"rental_api/models"
-
-	"github.com/beego/beego/v2/server/web"
+	// "rental_api/conf"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
-type BookingController struct {
-	web.Controller
+// Operations about Users
+type BookingControllerController struct {
+	beego.Controller
 	rateLimiter sync.Mutex
 }
+
 
 // Create handles POST requests to add a new property
 func (c *BookingController) Create() {

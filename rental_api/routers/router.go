@@ -2,29 +2,22 @@
 package routers
 
 import (
-	"rental_api/controllers"
-	"github.com/beego/beego/v2/server/web"
+    // "api_rental/controllers"
+    "rental_api/controllers"
+    beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
-	// Define CRUD routes for properties
-	web.Router("/", &controllers.BookingController{}, "get:Index")
-	web.Router("/v1/property", &controllers.BookingController{}, "post:Create")
-	web.Router("/v1/property/:id", &controllers.BookingController{}, "get:Get;put:Update;delete:Delete")
-	web.Router("/v1/properties", &controllers.BookingController{}, "get:List")
+    // Define CRUD routes for properties
+    beego.Router("/", &controllers.BookingController{}, "get:Index")
+    beego.Router("/v1/property", &controllers.BookingController{}, "post:Create")
+    beego.Router("/v1/property/:id", &controllers.BookingController{}, "get:Get;put:Update;delete:Delete")
+    beego.Router("/v1/properties", &controllers.BookingController{}, "get:List")
 
-	// Additional routes for specific operations
-	web.Router("/v1/cities/process", &controllers.BookingController{}, "get:ProcessAllCities")
-	web.Router("/v1/property/details/:id", &controllers.BookingController{}, "put:ProcessPropertyDetails")
+    // Additional routes for specific operations
+    beego.Router("/v1/cities/process", &controllers.BookingController{}, "get:ProcessAllCities")
+    beego.Router("/v1/property/details/:id", &controllers.BookingController{}, "put:ProcessPropertyDetails")
 }
-
-
-
-
-
-
-
-
 
 
 
